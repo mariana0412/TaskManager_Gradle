@@ -1,2 +1,6 @@
 rootProject.name = 'TaskManager_Gradle'
+include 'core'
+include 'ui'
+include 'data'
+include 'gson-library'
 
