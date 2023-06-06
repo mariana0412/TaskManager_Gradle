@@ -16,6 +16,7 @@ The project consists of 4 modules:
 - **Multi-module Gradle Project**: The project is organized into four related modules: core, storage, ui, and gson-library.
 - **Gradle Dependencies**: Dependencies between the modules and with external libraries from Maven Central are managed using Gradle.
 - **Combine Javadocs from three modules**: With specific command You can copy the generated Javadoc files from multiple modules to a combined directory. This allows easy access to the Javadoc documentation for all modules in a single location.
+- **Check File Presence**: This Gradle task verifies the existence of a file in the project directory. By running the task with a specific command, you can check if a file, whose path is given as a parameter, exists in the project structure. If the file is present, the task prints a corresponding message; if not, it informs about the absence of the file. This is useful to validate the availability of critical configuration or resource files required by the project.
 - **Build Task**: A custom build task is created to execute additional build logic specific to the project.
 
 ## Setup :wrench:
@@ -26,10 +27,10 @@ To build and run the project, you can use Gradle commands.
 2. Navigate to the project root directory.
 3. Run the following command to build the project:
 ./gradlew build
-4. Run the following command to execute the task that checks the existence of a config properties file:
-./gradlew checkConfigPropertiesFile
-5. Run the following command to copy the generated Javadoc files from multiple modules to a combined directory (TaskManager_Gradle/build/combinedJavadoc):
+4. Run the following command to copy the generated Javadoc files from multiple modules to a combined directory (TaskManager_Gradle/build/combinedJavadoc):
 ./gradlew copyJavadoc
+5. Run the following command to check file presence by its path:
+./gradlew checkFilePresence -PfilePath="your/file/path"
 6. Run the following command to execute the custom build task:
 ./gradlew myBuildTask
 
