@@ -9,9 +9,59 @@ repositories {
     mavenCentral()
 }
 
+subprojects {
+    apply plugin: 'java'
+
+    tasks.register('myJavadoc', Javadoc) {
+        source = sourceSets.main.allJava
+        classpath = configurations.compileClasspath
+        destinationDir = file("${buildDir}/myJavadoc")
+    }
+}
+
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+tasks.register('createJsonFileIfNeeded') {
+    doLast {
+        println "My task for building this project."
+        def filePath = "data/src/main/resources/tasks.json";
+
+        def file = file(filePath)
+
+        if(file.createNewFile())
+            println "File $filePath was not found. New empty file was created."
+        else
+            println "File $filePath was found. It was no need in creating it."
+    }
+}
+
+tasks.register('myJavadoc', Javadoc) {
+    source = sourceSets.main.allJava
+    classpath = configurations.compileClasspath
+    destinationDir = file("${buildDir}/myJavadoc")
+}
+
+tasks.register('copyJavadoc', Copy) {
+    dependsOn subprojects.myJavadoc
+
+    def moduleDirs = ["core", "data", "ui"]
+
+    moduleDirs.each { moduleDir ->
+        from fileTree("${moduleDir}/build/myJavadoc/org/mapthree")
+    }
+
+    exclude 'package-summary.html'
+    exclude 'package-tree.html'
+
+    into file("${buildDir}/combinedJavadoc")
+    duplicatesStrategy = DuplicatesStrategy.WARN
+}
+
+tasks.register('myBuildTask') {
+    dependsOn 'createJsonFileIfNeeded', 'copyJavadoc', 'build'
 }
 
 test {

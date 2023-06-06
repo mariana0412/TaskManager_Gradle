@@ -16,6 +16,14 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
+tasks.register('checkConfigPropertiesFile') {
+    def configFile = file('src/main/resources/config.properties')
+    if (configFile.exists())
+        println "This file is present."
+    else
+        println "This file is NOT present."
+}
+
 test {
     useJUnitPlatform()
 }
