@@ -24,11 +24,23 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
+// -PfilePath="ui/src/main/resources/config.properties"
+tasks.register('checkFilePresence') {
+    if (!project.hasProperty('filePath'))
+        throw new GradleException("The 'filePath' parameter is required.")
+
+    def filePath = project.filePath
+    def file = file(filePath)
+
+    if (file.exists())
+        println "The file $filePath is present."
+    else
+        println "The file $filePath is NOT present."
+}
+
 tasks.register('createJsonFileIfNeeded') {
     doLast {
-        println "My task for building this project."
-        def filePath = "data/src/main/resources/tasks.json";
-
+        def filePath = "data/src/main/resources/tasks.json"
         def file = file(filePath)
 
         if(file.createNewFile())
@@ -48,7 +60,6 @@ tasks.register('copyJavadoc', Copy) {
     dependsOn subprojects.myJavadoc
 
     def moduleDirs = ["core", "data", "ui"]
-
     moduleDirs.each { moduleDir ->
         from fileTree("${moduleDir}/build/myJavadoc/org/mapthree")
     }
@@ -62,6 +73,7 @@ tasks.register('copyJavadoc', Copy) {
 
 tasks.register('myBuildTask') {
     dependsOn 'createJsonFileIfNeeded', 'copyJavadoc', 'build'
+    println "My task for building this project."
 }
 
 test {
