@@ -7,7 +7,7 @@ This project is part of the practical work for the course "Automating Software A
 The project consists of 4 modules:
 
 1. **core**: This module contains the main business logic of the application.
-2. **storage**: This module is responsible for persisting tasks to a file using Google's Gson library.
+2. **data**: This module is responsible for persisting tasks to a file using Google's Gson library.
 3. **ui**: This module contains the user interface logic for interacting with tasks via a command-line interface.
 4. **gson-library**: GSON Java Library
 
